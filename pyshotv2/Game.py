@@ -121,8 +121,8 @@ class MainMenuScreen(Screen):
         self.titleMenu = DirectFrame(frameColor = (1, 1, 1, 0))
 
         title = DirectLabel(text = "PyShot",
-                            scale = 0.4,
-                            pos = (0, 0, 0.6),
+                            scale = 0.5,
+                            pos = (0, 0, 0.5),
                             parent = self.titleMenu,
                             relief = None,
                             text_fg = (1, 1, 1, 1))
@@ -295,7 +295,10 @@ class Game(ShowBase):
         #self.font = loader.loadFont("Fonts/Wbxkomik.ttf")
         #self.digitfont = loader.loadFont("Fonts/DS-DIGIT.TTF")
         self.digitfont = loader.loadFont("Assets/Fonts/digital_counter_7.ttf")
-        self.font = None
+        self.digitfont.setPixelsPerUnit(100)
+
+        self.font = loader.loadFont("Assets/Fonts/arial.ttf")
+        self.font.setPixelsPerUnit(100)
 
         self.buttonImages = (
             loader.loadTexture("Assets/UI/UIButton.png"),
