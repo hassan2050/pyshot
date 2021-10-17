@@ -248,8 +248,9 @@ class PyShot(App):
     
     self.state_handler = Animator(self.menus)
 
-    self.background = Entity(model='quad', texture='shore', parent=camera.ui,
-                             scale=(camera.aspect_ratio,1), color=color.white, z=1)
+    if 0:
+      self.background = Entity(model='quad', texture='shore', parent=camera.ui,
+                               scale=(camera.aspect_ratio,1), color=color.white, z=1)
 
     
 
