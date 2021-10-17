@@ -50,7 +50,7 @@ if 1:
   #window.size = (1920, 1080)
   #window.fullscreen_resolution = (1920, 1080)
 
-  window.borderless = False               # Show a border
+  #window.borderless = False               # Show a border
   #window.fullscreen = False               # Go Fullscreen
   #window.exit_button.visible = False      # Show the in-game red X that loses the window
   #window.fps_counter.enabled = True       # Show the FPS (Frames per second) counter
@@ -62,7 +62,9 @@ if 1:
     window.position = Vec2(0, 0)
     window.fullscreen = True               # Go Fullscreen
     
+    
 app = Ursina()
+window.update_aspect_ratio()
 
   
 if 0:

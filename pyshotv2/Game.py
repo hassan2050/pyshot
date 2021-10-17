@@ -26,7 +26,7 @@ class Screen:
     self.mapping[name] = func
     self.app.setupAccept(name, self)
 
-  def event(self, name):
+  def _do_event(self, name):
     f = self.mapping.get(name)
     if f:
       f()
@@ -53,56 +53,47 @@ class GameOverDialog(Screen):
                                    relief = DGG.FLAT,
                                    frameTexture = "Assets/UI/stoneFrame.png")
         
+        defaults = {}
+        defaults['text_font'] = self.app.font
+        defaults['text_fg'] = (1,1,1,1)
+        defaults['relief'] = None
+        defaults['parent'] = self.screen
+        
         label = DirectLabel(text = "Game Over!",
-                            parent = self.screen,
                             scale = 0.1,
                             pos = (0, 0, 0.2),
-                            relief = None)
+                            **defaults)
 
         self.finalScoreLabel = DirectLabel(text = "",
-                                           parent = self.screen,
                                            scale = 0.07,
                                            pos = (0, 0, 0),
-                                           relief = None)
+                                           **defaults)
+        
+        button_defaults = defaults.copy()
+        button_defaults['relief'] = DGG.FLAT
+        button_defaults['frameTexture'] = self.app.buttonImages
+        button_defaults['clickSound'] = self.app.clickSound
+        button_defaults['frameSize'] = (-4, 4, -1, 1)
+        button_defaults['text_scale'] = 0.75
+        button_defaults['scale'] = 0.07
         
         btn = DirectButton(text = "Restart",
                            command = self.app.startGame,
                            pos = (-0.3, 0, -0.2),
-                           parent = self.screen,
-                           scale = 0.07,
-                           clickSound = self.app.clickSound,
-                           frameTexture = self.app.buttonImages,
-                           frameSize = (-4, 4, -1, 1),
-                           text_scale = 0.75,
-                           relief = DGG.FLAT,
-                           text_pos = (0, -0.2))
-        btn.setTransparency(True)
+                           text_pos = (0, -0.2),
+                           **button_defaults)
 
         btn = DirectButton(text = "Menu",
                            command = self.app.mainMenu,
                            pos = (0, 0, -0.4),
-                           parent = self.screen,
-                           scale = 0.07,
-                           clickSound = self.app.clickSound,
-                           frameTexture = self.app.buttonImages,
-                           frameSize = (-4, 4, -1, 1),
-                           text_scale = 0.75,
-                           relief = DGG.FLAT,
-                           text_pos = (0, -0.2))
-        btn.setTransparency(True)
+                           text_pos = (0, -0.2),
+                           **button_defaults)
         
         btn = DirectButton(text = "Quit",
                            command = self.app.quit,
                            pos = (0.3, 0, -0.2),
-                           parent = self.screen,
-                           scale = 0.07,
-                           clickSound = self.app.clickSound,
-                           frameTexture = self.app.buttonImages,
-                           frameSize = (-4, 4, -1, 1),
-                           text_scale = 0.75,
-                           relief = DGG.FLAT,
-                           text_pos = (0, -0.2))
-        btn.setTransparency(True)
+                           text_pos = (0, -0.2),
+                           **button_defaults)
   
 class MainMenuScreen(Screen):
   def hide(self):
@@ -114,53 +105,42 @@ class MainMenuScreen(Screen):
     self.titleMenuBackdrop.show()
     
   def setup(self):
-        self.titleMenuBackdrop = DirectFrame(frameColor = (.1, .1, .1, 1),
-                                               frameSize = (-1, 1, -1, 1),
-                                               parent = render2d)
+    self.titleMenuBackdrop = DirectFrame(frameColor = (.1, .1, .1, 1),
+                                         frameSize = (-1, 1, -1, 1),
+                                         parent = render2d)
 
-        self.titleMenu = DirectFrame(frameColor = (1, 1, 1, 0))
+    self.titleMenu = DirectFrame(frameColor = (1, 1, 1, 0))
 
-        title = DirectLabel(text = "PyShot",
-                            scale = 0.5,
-                            pos = (0, 0, 0.5),
-                            parent = self.titleMenu,
-                            relief = None,
-                            text_fg = (1, 1, 1, 1))
+    defaults = {}
+    defaults['text_font'] = self.app.font
+    defaults['text_fg'] = (1,1,1,1)
+    defaults['relief'] = None
+    defaults['parent'] = self.titleMenu
 
-        btn = DirectButton(text = "Start Game",
-                           command = self.app.startGame,
-                           pos = (0, 0, -0.4),
-                           parent = self.titleMenu,
-                           scale = 0.1,
-                           clickSound = self.app.clickSound,
-                           frameTexture = self.app.buttonImages,
-                           frameSize = (-4, 4, -1, 1),
-                           text_scale = 0.75,
-                           relief = DGG.FLAT,
-                           text_pos = (0, -0.2))
-        btn.setTransparency(True)
+    title = DirectLabel(text = "PyShot",
+                        scale = 0.5,
+                        pos = (0, 0, 0.4),
+                        **defaults)
 
-        if 0:
-          btn = DirectButton(text = "Quit",
-                             command = self.app.quit,
-                             pos = (0, 0, -0.3),
-                             parent = self.titleMenu,
-                             scale = 0.1,
-                             clickSound = self.app.clickSound,
-                             frameTexture = self.app.buttonImages,
-                             frameSize = (-4, 4, -1, 1),
-                             text_scale = 0.75,
-                             relief = DGG.FLAT,
-                             text_pos = (0, -0.2))
-          btn.setTransparency(True)
+    button_defaults = defaults.copy()
+    button_defaults['relief'] = DGG.FLAT
+    button_defaults['frameTexture'] = self.app.buttonImages
+    button_defaults['clickSound'] = self.app.clickSound
+    button_defaults['frameSize'] = (-4, 4, -1, 1)
+    button_defaults['text_scale'] = 0.75
 
-        title = DirectLabel(text = "[z] left  [x] right  [space] step  [q] quit  [esc] exit",
-                            scale = 0.08,
-                            pos = (0, 0, -.9),
-                            parent = self.titleMenu,
-                            relief = None,
-                            text_fg = (1, 1, 1, 1))
-          
+    btn = DirectButton(text = "Start Game",
+                       command = self.app.startGame,
+                       pos = (0, 0, -0.4),
+                       scale = 0.1,
+                       text_pos = (0, -0.2),
+                       **button_defaults)
+
+    title = DirectLabel(text = "[z] left  [x] right  [space] step  [q] quit  [esc] exit",
+                        scale = 0.08,
+                        pos = (0, 0, -.9),
+                        **defaults)
+
 class CountDownScreen(Screen):
   def update(self):
     self.updateTimer()
@@ -343,7 +323,7 @@ class Game(ShowBase):
       self.accept(name, self._accept, [name])
       
     def _accept(self, name):
-      self.screens[self.currentScreen].event(name)
+      self.screens[self.currentScreen]._do_event(name)
         
     def leftBasket(self):
       self.scores[0] += 2
